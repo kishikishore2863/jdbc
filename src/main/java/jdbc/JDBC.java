@@ -1,5 +1,7 @@
 package jdbc;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,10 +13,12 @@ public class JDBC {
         Class.forName("com.mysql.cj.jdbc.Driver");
         System.out.println("Driver is loaded");
 
-        String url = "jdbc:mysql://localhost:3306/jdbc";
-        String user = "root";
-        String pwd = "your password";
-        Connection con = DriverManager.getConnection(url, user, pwd);
+        Dotenv dotenv = Dotenv.load();
+
+        String url = dotenv.get("JDBC_URL");
+        String user = dotenv.get("JDBC_USER");
+        String password = dotenv.get("JDBC_PASSWORD");
+        Connection con = DriverManager.getConnection(url, user, password);
 
         if (con == null) {
             System.out.println("Connection is not established");
