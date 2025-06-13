@@ -168,5 +168,27 @@ public class JDBC {
             insertEmployee(con, name, department, company, salary, phoneNumber);
         }
     }
+    public static void insertMultipleEmployees(Connection con) throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter number of employees to insert: ");
+        int n = Integer.parseInt(scanner.nextLine());
+
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter details for employee " + (i + 1));
+            System.out.print("Name: ");
+            String name = scanner.nextLine();
+            System.out.print("Department: ");
+            String department = scanner.nextLine();
+            System.out.print("Company: ");
+            String company = scanner.nextLine();
+            System.out.print("Salary: ");
+            double salary = Double.parseDouble(scanner.nextLine());
+            System.out.print("Phone Number: ");
+            String phoneNumber = scanner.nextLine();
+
+            insertEmployee(con, name, department, company, salary, phoneNumber);
+        }
+    }
 
 }
