@@ -2,17 +2,12 @@ package jdbc;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Scanner;
 
 public class JDBC {
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        System.out.println("Driver is loaded");
-
         Dotenv dotenv = Dotenv.load();
 
         String url = dotenv.get("JDBC_URL");
@@ -168,5 +163,33 @@ public class JDBC {
             insertEmployee(con, name, department, company, salary, phoneNumber);
         }
     }
+
+    public static void view(String tableName) throws SQLException, ClassNotFoundException {
+       Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from "+tableName+";");
+        ResultSetMetaData metaData = resultSet.getMetaData();
+
+        System.out.println(resultSet);
+
+        int numberOfColumn = metaData.getColumnCount();
+        for (int i=1; i<=numberOfColumn; i++){
+            System.out.printf("%-20s",metaData.getColumnName(i));
+        }
+        System.out.println();
+
+        while (resultSet.next()){
+            for (int i=1; i<=numberOfColumn; i++){
+                System.out.printf("%-20s",resultSet.getString(i));
+            }
+            System.out.println();
+        }
+
+        int [] arr = {1,2,3,4,5,6};
+        for(int i= arr.length-1; i>=0; i--){
+            System.out.println(arr[i]);
+        }
+    }
+
 
 }
